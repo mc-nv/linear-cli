@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from src.commands import ping
+from src.commands import ping, query
 
 
 def main():
@@ -11,6 +11,7 @@ def main():
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
     ping.setup_parser(subparsers)
+    query.setup_parser(subparsers)
     args = parser.parse_args()
     if not args.command or not hasattr(args, "func"):
         parser.print_help()

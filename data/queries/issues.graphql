@@ -1,0 +1,16 @@
+# Get user's assigned issues
+query {
+  issues(filter: { assignee: { isMe: { eq: true } } }) {
+    nodes {
+      id
+      title
+      state {
+        name
+      }
+      priority
+      createdAt
+      updatedAt
+    }
+  }
+}
+

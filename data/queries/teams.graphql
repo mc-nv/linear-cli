@@ -1,0 +1,12 @@
+# Get all teams
+query {
+  teams {
+    nodes {
+      id
+      name
+      key
+      description
+    }
+  }
+}
+
