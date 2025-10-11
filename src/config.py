@@ -19,6 +19,7 @@ def load_config():
 
 def apply_config_to_env():
     """Apply config values to env vars. Actual env vars take precedence."""
-    for key, value in load_config().items():
+    config = load_config()
+    for key, value in config.items():
         if key not in os.environ:
             os.environ[key] = str(value)

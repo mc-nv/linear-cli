@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 from src.client import LinearClient
+from src.logger import get_logger
 
 
 def get_builtin_dir():
@@ -57,9 +58,11 @@ def load_template(name):
     )
 
 
-def setup_parser(subparsers):
+def setup_parser(subparsers, parent_parser):
     parser = subparsers.add_parser(
-        "query", help="Execute predefined GraphQL query templates"
+        "query",
+        help="Execute predefined GraphQL query templates",
+        parents=[parent_parser],
     )
     parser.add_argument(
         "template", nargs="?", help="Template name to execute (or 'list' to show all)"
@@ -69,7 +72,10 @@ def setup_parser(subparsers):
 
 
 def execute(args):
+    logger = get_logger()
+    
     if args.template == "list" or not args.template:
+        logger.debug("Listing available templates")
         templates = list_templates()
         if not templates:
             print("No templates found")
@@ -93,8 +99,11 @@ def execute(args):
         return 0
 
     try:
-        client = LinearClient(token=args.token)
+        logger.debug(f"Loading template: {args.template}")
         query = load_template(args.template)
+        logger.info(f"Executing template: {args.template}")
+        
+        client = LinearClient(token=args.token)
         result = client.execute_query(query)
 
         if args.json:
@@ -103,9 +112,11 @@ def execute(args):
             print(json.dumps(result.get("data", result), indent=2))
         return 0
     except FileNotFoundError as e:
+        logger.error(f"Template not found: {args.template}")
         print(f"✗ {e}")
         print(f"Available templates: {', '.join(list_templates())}")
         return 1
     except Exception as e:
+        logger.error(f"Error executing query: {e}")
         print(f"✗ Error: {e}")
         return 1
