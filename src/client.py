@@ -25,23 +25,23 @@ class LinearClient:
         payload = {"query": query}
         if variables:
             payload["variables"] = variables
-        
+
         self.logger.debug(f"Executing GraphQL query: {query[:100]}...")
         self.logger.debug(f"Variables: {variables}")
-        
+
         response = requests.post(
             self.BASE_URL, json=payload, headers=self.headers, timeout=30
         )
         response.raise_for_status()
-        
+
         self.logger.debug(f"Response status: {response.status_code}")
-        
+
         data = response.json()
         if "errors" in data:
             errors = [error.get("message", str(error)) for error in data["errors"]]
             self.logger.error(f"GraphQL errors: {errors}")
             raise Exception(f"GraphQL errors: {', '.join(errors)}")
-        
+
         self.logger.info("Query executed successfully")
         return data
 

@@ -15,7 +15,7 @@ def setup_parser(subparsers, parent_parser):
 
 def execute(args):
     logger = get_logger()
-    
+
     try:
         logger.debug("Initializing ping command")
         client = LinearClient(token=args.token)

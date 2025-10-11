@@ -73,7 +73,7 @@ def setup_parser(subparsers, parent_parser):
 
 def execute(args):
     logger = get_logger()
-    
+
     if args.template == "list" or not args.template:
         logger.debug("Listing available templates")
         templates = list_templates()
@@ -102,7 +102,7 @@ def execute(args):
         logger.debug(f"Loading template: {args.template}")
         query = load_template(args.template)
         logger.info(f"Executing template: {args.template}")
-        
+
         client = LinearClient(token=args.token)
         result = client.execute_query(query)
 
