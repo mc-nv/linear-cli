@@ -8,10 +8,10 @@ class LinearClient:
     BASE_URL = "https://api.linear.app/graphql"
 
     def __init__(self, token: Optional[str] = None):
-        self.token = token or os.getenv("LINEAR_TOKEN")
+        self.token = token or os.getenv("LINEAR_CLI_TOKEN")
         if not self.token:
             raise ValueError(
-                "Linear API token required. Use --token or set LINEAR_TOKEN env var"
+                "Linear API token required. Use --token or set LINEAR_CLI_TOKEN env var"
             )
         self.headers = {"Authorization": self.token, "Content-Type": "application/json"}
 

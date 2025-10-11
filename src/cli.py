@@ -14,7 +14,8 @@ def main():
         epilog="Configuration: ~/.config/linear/user/conf.json (override with LINEAR_CLI_CONFIG)",
     )
     parser.add_argument(
-        "--token", help="Linear API token (or use LINEAR_TOKEN env var or config file)"
+        "--token",
+        help="Linear API token (or use LINEAR_CLI_TOKEN env var or config file)",
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
     ping.setup_parser(subparsers)
