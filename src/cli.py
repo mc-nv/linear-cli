@@ -2,12 +2,19 @@ import argparse
 import sys
 
 from src.commands import ping, query
+from src.config import apply_config_to_env
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="linear", description="CLI for Linear API")
+    # Load config from ~/.config/linear/user/conf.json (env vars take precedence)
+    apply_config_to_env()
+    parser = argparse.ArgumentParser(
+        prog="linear",
+        description="CLI for Linear API",
+        epilog="Configuration: ~/.config/linear/user/conf.json (override with LINEAR_CLI_CONFIG)",
+    )
     parser.add_argument(
-        "--token", help="Linear API token (or use LINEAR_TOKEN env var)"
+        "--token", help="Linear API token (or use LINEAR_TOKEN env var or config file)"
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
     ping.setup_parser(subparsers)
