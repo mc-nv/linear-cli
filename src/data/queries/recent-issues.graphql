@@ -1,0 +1,26 @@
+# Get recently updated issues
+query {
+  issues(
+    orderBy: updatedAt
+    first: 20
+  ) {
+    nodes {
+      id
+      identifier
+      title
+      priority
+      priorityLabel
+      state {
+        name
+      }
+      assignee {
+        name
+      }
+      updatedAt
+      team {
+        key
+      }
+    }
+  }
+}
+

@@ -1,0 +1,15 @@
+# Get organization information
+query {
+  organization {
+    id
+    name
+    urlKey
+    logoUrl
+    createdAt
+    allowedAuthServices
+    userCount
+    gitAutomationEnabled
+    gitBranchFormat
+  }
+}
+

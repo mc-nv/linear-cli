@@ -6,29 +6,55 @@ from pathlib import Path
 from src.client import LinearClient
 
 
-def get_data_dir():
-    """Get data directory from env var or default package location."""
+def get_builtin_dir():
+    """Get built-in templates directory."""
+    return Path(__file__).parent.parent / "data" / "queries"
+
+
+def get_user_dir():
+    """Get user-defined templates directory from env var."""
     user_dir = os.getenv("LINEAR_USER_DATA_QUERIES")
-    if user_dir:
-        return Path(user_dir)
-    return Path(__file__).parent.parent.parent / "data" / "queries"
+    return Path(user_dir) if user_dir else None
 
 
 def list_templates():
-    """List available query templates."""
-    data_dir = get_data_dir()
-    if not data_dir.exists():
-        return []
-    return sorted([f.stem for f in data_dir.glob("*.graphql")])
+    """List available query templates from both user and built-in directories."""
+    templates = {}
+    builtin_dir = get_builtin_dir()
+    user_dir = get_user_dir()
+
+    # Load built-in templates
+    if builtin_dir.exists():
+        for f in builtin_dir.glob("*.graphql"):
+            templates[f.stem] = "built-in"
+
+    # Load user templates (can override built-in)
+    if user_dir and user_dir.exists():
+        for f in user_dir.glob("*.graphql"):
+            templates[f.stem] = "user"
+
+    return sorted(templates.keys())
 
 
 def load_template(name):
-    """Load a query template by name."""
-    data_dir = get_data_dir()
-    template_path = data_dir / f"{name}.graphql"
-    if not template_path.exists():
-        raise FileNotFoundError(f"Template '{name}' not found in {data_dir}")
-    return template_path.read_text()
+    """Load a query template by name. User templates take precedence over built-in."""
+    user_dir = get_user_dir()
+    builtin_dir = get_builtin_dir()
+
+    # Check user directory first
+    if user_dir:
+        user_template = user_dir / f"{name}.graphql"
+        if user_template.exists():
+            return user_template.read_text()
+
+    # Fall back to built-in
+    builtin_template = builtin_dir / f"{name}.graphql"
+    if builtin_template.exists():
+        return builtin_template.read_text()
+
+    raise FileNotFoundError(
+        f"Template '{name}' not found in built-in or user directories"
+    )
 
 
 def setup_parser(subparsers):
@@ -46,11 +72,24 @@ def execute(args):
     if args.template == "list" or not args.template:
         templates = list_templates()
         if not templates:
-            print(f"No templates found in {get_data_dir()}")
+            print("No templates found")
+            builtin = get_builtin_dir()
+            user = get_user_dir()
+            print(
+                f"  Built-in dir: {builtin} {'(exists)' if builtin.exists() else '(not found)'}"
+            )
+            if user:
+                print(
+                    f"  User dir: {user} {'(exists)' if user.exists() else '(not found)'}"
+                )
             return 1
         print("Available templates:")
         for tmpl in templates:
             print(f"  - {tmpl}")
+        user_dir = get_user_dir()
+        if user_dir and user_dir.exists():
+            print(f"\nUser templates: {user_dir}")
+        print(f"Built-in templates: {get_builtin_dir()}")
         return 0
 
     try:

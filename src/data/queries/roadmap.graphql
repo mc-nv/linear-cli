@@ -1,0 +1,35 @@
+# Get roadmap with projects and milestones
+query {
+  projects(
+    filter: {
+      state: { in: ["planned", "started"] }
+    }
+  ) {
+    nodes {
+      id
+      name
+      state
+      priority
+      progress
+      startDate
+      targetDate
+      description
+      lead {
+        name
+      }
+      teams {
+        nodes {
+          name
+          key
+        }
+      }
+      milestones {
+        nodes {
+          name
+          targetDate
+        }
+      }
+    }
+  }
+}
+

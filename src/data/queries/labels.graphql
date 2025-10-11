@@ -1,0 +1,16 @@
+# Get all labels
+query {
+  issueLabels {
+    nodes {
+      id
+      name
+      description
+      color
+      team {
+        name
+        key
+      }
+    }
+  }
+}
+

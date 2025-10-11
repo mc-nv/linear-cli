@@ -1,0 +1,27 @@
+# Get active and upcoming cycles
+query {
+  cycles(
+    filter: {
+      or: [
+        { isActive: { eq: true } }
+        { isFuture: { eq: true } }
+      ]
+    }
+  ) {
+    nodes {
+      id
+      number
+      name
+      startsAt
+      endsAt
+      progress
+      completedIssueCount
+      issueCount
+      team {
+        name
+        key
+      }
+    }
+  }
+}
+

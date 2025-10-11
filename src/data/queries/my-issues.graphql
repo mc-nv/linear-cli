@@ -1,0 +1,37 @@
+# Get my assigned issues with details
+query {
+  viewer {
+    assignedIssues {
+      nodes {
+        id
+        identifier
+        title
+        description
+        priority
+        priorityLabel
+        state {
+          name
+          type
+        }
+        assignee {
+          name
+        }
+        createdAt
+        updatedAt
+        dueDate
+        estimate
+        team {
+          name
+          key
+        }
+        labels {
+          nodes {
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+}
+

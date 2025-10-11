@@ -1,0 +1,20 @@
+# Get all projects
+query {
+  projects {
+    nodes {
+      id
+      name
+      description
+      state
+      priority
+      progress
+      startDate
+      targetDate
+      lead {
+        name
+        email
+      }
+    }
+  }
+}
+

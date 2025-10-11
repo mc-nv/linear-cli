@@ -1,0 +1,24 @@
+# Get issues created by me
+query {
+  viewer {
+    createdIssues {
+      nodes {
+        id
+        identifier
+        title
+        state {
+          name
+        }
+        assignee {
+          name
+        }
+        priority
+        createdAt
+        team {
+          key
+        }
+      }
+    }
+  }
+}
+

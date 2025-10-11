@@ -1,0 +1,17 @@
+# Get all users in the organization
+query {
+  users {
+    nodes {
+      id
+      name
+      displayName
+      email
+      admin
+      active
+      createdAt
+      lastSeen
+      avatarUrl
+    }
+  }
+}
+

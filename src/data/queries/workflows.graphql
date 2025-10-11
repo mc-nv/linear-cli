@@ -1,0 +1,19 @@
+# Get all workflow states by team
+query {
+  teams {
+    nodes {
+      name
+      key
+      states {
+        nodes {
+          id
+          name
+          type
+          color
+          position
+        }
+      }
+    }
+  }
+}
+

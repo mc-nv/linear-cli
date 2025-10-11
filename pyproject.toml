@@ -20,4 +20,4 @@ where = ["."]
 include = ["src*"]
 
 [tool.setuptools.package-data]
-"*" = ["./data/queries/*.graphql"]
+"src" = ["data/queries/*.graphql"]

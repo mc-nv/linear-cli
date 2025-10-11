@@ -1,2 +1,2 @@
-include data/queries/*.graphql
+include src/data/queries/*.graphql
 
