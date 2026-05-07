@@ -25,7 +25,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog="linear",
         description="CLI for Linear API",
-        epilog="Configuration: ~/.config/linear/user/conf.json (override with LINEAR_CLI_CONFIG)",
+        epilog="Configuration: ~/.config/linear/user/conf.json (override with LINEAR_CLI_CONFIG; supports multiple paths separated by os.pathsep, later paths override earlier ones)",
         parents=[parent_parser],
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
