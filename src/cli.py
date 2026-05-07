@@ -1,6 +1,7 @@
 import argparse
 import sys
 
+from src.commands import config as config_cmd
 from src.commands import ping, query
 from src.config import apply_config_to_env
 from src.logger import setup_logger
@@ -25,10 +26,11 @@ def main():
     parser = argparse.ArgumentParser(
         prog="linear",
         description="CLI for Linear API",
-        epilog="Configuration: ~/.config/linear/user/conf.json (override with LINEAR_CLI_CONFIG)",
+        epilog="Configuration: ~/.config/linear/user/conf.json (override with LINEAR_CLI_CONFIG; supports multiple paths separated by os.pathsep, later paths override earlier ones)",
         parents=[parent_parser],
     )
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
+    config_cmd.setup_parser(subparsers, parent_parser)
     ping.setup_parser(subparsers, parent_parser)
     query.setup_parser(subparsers, parent_parser)
     args = parser.parse_args()
