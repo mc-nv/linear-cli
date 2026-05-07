@@ -22,3 +22,6 @@ include = ["src*"]
 
 [tool.setuptools.package-data]
 "src" = ["data/queries/*.graphql"]
+
+[tool.isort]
+profile = "black"
