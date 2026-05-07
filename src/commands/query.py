@@ -15,7 +15,7 @@ def get_builtin_dir():
 def get_user_dir():
     """Get user-defined templates directory from env var."""
     user_dir = os.getenv("LINEAR_CLI_USER_DATA_QUERIES")
-    return Path(user_dir) if user_dir else None
+    return Path(user_dir).expanduser() if user_dir else None
 
 
 def list_templates():
